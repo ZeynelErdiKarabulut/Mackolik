@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.zeynelerdi.mackolik.ui.main.MainViewModel" />
+    </data>
+
+
+    <LinearLayout
+        android:id="@+id/rootMainActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:title="@string/app_name"
+            app:titleMarginStart="20dp"
+            android:background="@color/color_primary"
+            app:titleTextColor="@color/color_on_primary"
+            app:titleTextAppearance="@style/Toolbar.TitleText">
+
+            <com.zeynelerdi.mackolik.ui.common.components.spinner.MackolikSpinner
+                android:id="@+id/mackolikSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                app:arrowTint="@color/color_on_primary"
+                app:hideArrow="false"
+                app:textTint="@color/color_on_primary"
+                app:popupTextTint="@color/color_on_secondary"
+                app:popupTextAlignment="center"
+                app:entries="@array/mackolik_spinner_items"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+</layout>
+
+
+
+

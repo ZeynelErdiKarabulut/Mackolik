@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArgument "listener", "leakcanary.FailTestOnLeakRunListener"
+
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'Boolean', 'LOG_ENABLED', 'false'
+
+        }
+        debug {
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'Boolean', 'LOG_ENABLED', 'true'
+
+        }
+    }
+
+
+    dataBinding {
+        enabled = true
+    }
+
+    androidExtensions {
+        experimental true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    flavorDimensions "default"
+
+    productFlavors {
+
+        devFlavor {
+            applicationId "com.zeynelerdi.mackolik"
+            android.defaultConfig.applicationId "com.zeynelerdi.mackolik"
+            buildConfigField 'String', 'X_APP_KEY', '"test"'
+            buildConfigField("String", "BASE_URL", "\"https://demo1899326.mockable.io/\"")
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    addDependencies(dependencies, libraries)
+    addDependencies(dependencies, testLibraries)
+}

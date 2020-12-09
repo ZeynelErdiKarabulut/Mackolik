@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="popupTextAlignment" format="enum">
+        <enum name="start" value="0" />
+        <enum name="end" value="1" />
+        <enum name="center" value="2" />
+    </attr>
+
+    <declare-styleable name="MackolikSpinner">
+        <attr name="arrowTint" format="color" />
+        <attr name="hideArrow" format="boolean" />
+        <attr name="arrowDrawable" format="reference|color" />
+        <attr name="backgroundSelector" format="integer" />
+        <attr name="spinnerBackgroundSelector" format="integer" />
+        <attr name="textTint" format="color" />
+        <attr name="popupTextTint" format="color" />
+        <attr name="popupTextAlignment" />
+        <attr name="entries" format="reference" />
+    </declare-styleable>
+</resources>

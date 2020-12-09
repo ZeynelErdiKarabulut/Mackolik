@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Mackolik</string>
+
+    <string-array name="mackolik_spinner_items">
+        <item>News</item>
+        <item>Scores</item>
+        <item>Standings</item>
+    </string-array>
+</resources>

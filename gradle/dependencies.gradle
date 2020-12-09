@@ -1,0 +1,152 @@
+def versions = [
+        //Gradle Plugin
+        gradlePlugin        : '3.6.2',
+        kotlin              : '1.3.72',
+
+        //Libraries
+        appCompat           : "1.1.0",
+        chuck               : '1.1.0',
+        constraintLayout    : '1.1.3',
+        core                : '1.2.0',
+        dagger              : '2.27',
+        glide               : '4.11.0',
+        gson                : '2.8.6',
+        jodaTime            : '2.10.5',
+        logger              : '2.2.0',
+        lottie              : '3.4.0',
+        material            : '1.2.0-alpha06',
+        multiDex            : '2.0.1',
+        retrofit            : '2.8.1',
+        rxJava              : '2.2.19',
+        rxAndroid           : '2.1.1',
+        rxAdapter           : '2.8.1',
+        rxRoom              : '1.1.1',
+
+        //Test Libraries
+        espressoCore        : '3.2.0',
+        junit               : '4.13',
+        junitExt            : '1.1.1',
+]
+
+ext.libraries = [
+        appCompat       : implementation("androidx.appcompat:appcompat:$versions.appCompat"),
+
+        chuck           : [
+                debug  : debugImplementation("com.readystatesoftware.chuck:library:$versions.chuck"),
+                release: releaseImplementation("com.readystatesoftware.chuck:library-no-op:$versions.chuck")
+        ],
+
+        constraintLayout: implementation("androidx.constraintlayout:constraintlayout:$versions.constraintLayout"),
+        core            : implementation("androidx.core:core-ktx:$versions.core"),
+        dagger          : [
+                core            : implementation("com.google.dagger:dagger:$versions.dagger"),
+                support         : implementation("com.google.dagger:dagger-android-support:$versions.dagger"),
+                compiler        : kapt("com.google.dagger:dagger-compiler:$versions.dagger"),
+                androidProcessor: kapt("com.google.dagger:dagger-android-processor:$versions.dagger")
+        ],
+        glide           : [
+                core      : implementation("com.github.bumptech.glide:glide:$versions.glide"),
+                annotation: kapt("com.github.bumptech.glide:annotations:$versions.glide")
+        ],
+        gson            : [
+                gson: implementation("com.google.code.gson:gson:$versions.gson")
+        ],
+        jodaTime        : implementation("joda-time:joda-time:$versions.jodaTime"),
+        logger          : implementation("com.orhanobut:logger:$versions.logger"),
+        lottie          : implementation("com.airbnb.android:lottie:$versions.lottie"),
+        material        : implementation("com.google.android.material:material:$versions.material"),
+        multiDex        : implementation("androidx.multidex:multidex:$versions.multiDex"),
+        retrofit        : [
+                core         : implementation("com.squareup.retrofit2:retrofit:$versions.retrofit"),
+                gsonConverter: implementation("com.squareup.retrofit2:converter-gson:$versions.retrofit")
+        ],
+        rx              : [
+                java   : implementation("io.reactivex.rxjava2:rxjava:$versions.rxJava"),
+                android: implementation("io.reactivex.rxjava2:rxandroid:$versions.rxAndroid"),
+                adapter: implementation("com.squareup.retrofit2:adapter-rxjava2:$versions.rxAdapter"),
+                room   : implementation("android.arch.persistence.room:rxjava2:$versions.rxRoom")
+        ],
+]
+
+ext.testLibraries = [
+        espressoCore: androidTestImplementation("androidx.test.espresso:espresso-core:$versions.espressoCore"),
+        junit       : testImplementation("junit:junit:$versions.junit"),
+        junitExt    : androidTestImplementation("androidx.test.ext:junit:$versions.junitExt"),
+]
+
+ext.gradlePlugins = [
+        android       : classpath("com.android.tools.build:gradle:$versions.gradlePlugin"),
+        kotlin        : classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"),
+]
+
+ext.addDependencies = { DependencyHandler handler, dependencies ->
+    getDependencies(dependencies).each {
+        handler.add(it.config, it.notation)
+    }
+}
+
+def repository = [
+        jitpack: 'https://jitpack.io'
+]
+
+ext.addRepos = { RepositoryHandler handler ->
+    handler.google()
+    handler.jcenter()
+    handler.maven { url repository.jitpack }
+}
+
+static def getDependencies(holder) {
+    def dependencies = new ArrayList<Dependency>()
+
+    if (holder instanceof Dependency) {
+        dependencies.add(holder)
+    } else if (holder instanceof Map) {
+        holder.values().each {
+            dependencies.addAll(getDependencies(it))
+        }
+    } else if (holder instanceof List) {
+        holder.each {
+            dependencies.addAll(getDependencies(it))
+        }
+    }
+
+    return dependencies
+}
+
+static def classpath(notation) {
+    new Dependency('classpath', notation)
+}
+
+static def implementation(notation) {
+    new Dependency('implementation', notation)
+}
+
+static def kapt(notation) {
+    new Dependency('kapt', notation)
+}
+
+static def debugImplementation(notation) {
+    new Dependency('debugImplementation', notation)
+}
+
+static def releaseImplementation(notation) {
+    new Dependency('releaseImplementation', notation)
+}
+
+static def testImplementation(notation) {
+    new Dependency('testImplementation', notation)
+}
+
+static def androidTestImplementation(notation) {
+    new Dependency('androidTestImplementation', notation)
+}
+
+class Dependency {
+    def config
+    def notation
+
+    Dependency(config, notation) {
+        this.config = config
+        this.notation = notation
+    }
+}
